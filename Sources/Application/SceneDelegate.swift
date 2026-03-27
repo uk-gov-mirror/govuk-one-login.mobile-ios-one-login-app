@@ -13,7 +13,7 @@ final class SceneDelegate: UIResponder,
     
     private lazy var analyticsPreferenceStore = UserDefaultsPreferenceStore()
     lazy var analyticsService: OneLoginAnalyticsService = {
-        let analyticsService = GAnalyticsV2(analyticsPreferenceStore: analyticsPreferenceStore)
+        let analyticsService = GAnalytics(analyticsPreferenceStore: analyticsPreferenceStore)
             .addingAdditionalParameters(.oneLoginDefaults)
         analyticsService.activate()
         return analyticsService
@@ -27,7 +27,8 @@ final class SceneDelegate: UIResponder,
             let encryptedSecureStoreMigrator = EncryptedSecureStoreMigrator(analyticsService: analyticsService)
             let manager = PersistentSessionManager(
                 accessControlEncryptedStore: accessControlEncryptedSecureStoreMigrator,
-                encryptedStore: encryptedSecureStoreMigrator
+                encryptedStore: encryptedSecureStoreMigrator,
+                analyticsService: analyticsService
             )
             
             manager.registerSessionBoundData(
