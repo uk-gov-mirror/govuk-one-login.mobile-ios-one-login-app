@@ -7,12 +7,8 @@ import UIKit
 
 @MainActor
 protocol CRIOrchestration {
-    func continueIdentityCheckIfRequired(over viewController: UIViewController)
-    
-    func getIDCheckCard(
-        viewController: UIViewController,
-        externalStream: IDCheckExternalStream
-    ) -> UIViewController
+    func continueIdentityCheckIfRequired(over viewController: UIViewController, externalStream: IDCheckExternalStream)
+    func getIDCheckCard(viewController: UIViewController) -> UIViewController
 }
 
 final class HomeViewController: BaseViewController {
@@ -24,7 +20,7 @@ final class HomeViewController: BaseViewController {
     let spaceBetweenSections: CGFloat = 16
     
     private var idCheckCard: UIViewController?
-    private let idCheckCardUpdateStream = AsyncStream.makeStream(of: CardStatus.self)
+    private var idCheckCardUpdateStream: IDCheckExternalStream?
     
     init(analyticsService: OneLoginAnalyticsService,
          criOrchestrator: CRIOrchestration) {
@@ -63,15 +59,11 @@ final class HomeViewController: BaseViewController {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "OneLoginHomeScreenCell")
         tableView.delegate = self
         tableView.dataSource = self
-        listenForCardUpdates()
-        idCheckCard = criOrchestrator.getIDCheckCard(
-            viewController: self,
-            externalStream: idCheckCardUpdateStream
-        )
-        criOrchestrator.continueIdentityCheckIfRequired(over: self)
+        idCheckCard = criOrchestrator.getIDCheckCard(viewController: self)
     }
     
     func listenForCardUpdates() {
+        guard let idCheckCardUpdateStream else { return }
         Task {
             for await status in idCheckCardUpdateStream.stream {
                 switch status {
@@ -91,10 +83,20 @@ final class HomeViewController: BaseViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        checkIDCheckSession()
+        
         let screen = ScreenView(id: HomeAnalyticsScreenID.homeScreen.rawValue,
                                 screen: HomeAnalyticsScreen.homeScreen,
                                 titleKey: navigationTitle.stringKey)
         analyticsService.trackScreen(screen)
+    }
+    
+    private func checkIDCheckSession() {
+        let stream = AsyncStream.makeStream(of: CardStatus.self)
+        idCheckCardUpdateStream = stream
+        listenForCardUpdates()
+        criOrchestrator.continueIdentityCheckIfRequired(over: self, externalStream: stream)
     }
 }
 
