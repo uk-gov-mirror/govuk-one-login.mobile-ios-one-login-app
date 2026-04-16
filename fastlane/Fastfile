@@ -26,20 +26,21 @@ platform :ios do
       device: "iPhone 17 (26.1)",
       scheme: options[:scheme],
       configuration: options[:configuration],
+      xcodebuild_formatter: "xcpretty",
       build_for_testing: true,
+      should_zip_build_products: true,
       xcargs: '-skipPackagePluginValidation'
     )
   end
   desc "Run Tests without Sonar Coverage"
   lane :testWithoutBuildingWithoutCoverage do |options|
     run_tests(
-      workspace: "OneLogin.xcworkspace",
       device: "iPhone 17 (26.1)",
       scheme: options[:scheme],
-      configuration: options[:configuration],
+      xcodebuild_formatter: "xcpretty",
+      xctestrun: options[:xctestrun],
       test_without_building: true,
-      testplan: options[:testplan],
-      xcargs: '-skipPackagePluginValidation'
+      result_bundle: true,      
     )
   end
   desc "Run Tests without Sonar Coverage"
@@ -49,6 +50,7 @@ platform :ios do
       device: "iPhone 17 (26.1)",
       scheme: options[:scheme],
       configuration: options[:configuration],
+      xcodebuild_formatter: "xcpretty",
       testplan: options[:testplan],
       xcargs: '-skipPackagePluginValidation'
     )
@@ -61,6 +63,7 @@ platform :ios do
       device: "iPhone 17 (26.1)",
       scheme: options[:scheme],
       configuration: options[:configuration],
+      xcodebuild_formatter: "xcpretty",
       testplan: options[:testplan],
       prelaunch_simulator: true,
       result_bundle: true,
@@ -76,6 +79,7 @@ platform :ios do
       device: "iPhone 17 (26.1)",
       scheme: options[:scheme],
       configuration: options[:configuration],
+      xcodebuild_formatter: "xcpretty",
       testplan: options[:testplan],
       result_bundle: true,
       xcargs: '-skipPackagePluginValidation'
@@ -98,14 +102,12 @@ platform :ios do
   desc "Run Tests and Output Code Coverage"
   lane :testWithoutBuilding do |options|
     run_tests(
-      workspace: "OneLogin.xcworkspace",
       device: "iPhone 17 (26.1)",
       scheme: options[:scheme],
-      configuration: options[:configuration],
-      testplan: options[:testplan],
+      xcodebuild_formatter: "xcpretty",
+      xctestrun: options[:xctestrun],
       test_without_building: true,      
       result_bundle: true,
-      xcargs: '-skipPackagePluginValidation'
     )
     
     sh(
