@@ -42,32 +42,40 @@ struct LoginModal: ScreenObject {
     func tapBrowserLoginButton() -> LoadingScreen {
         loginButton.tap()
         
-        return LoadingScreen(app: app).waitForAppearance()
+        return LoadingScreen(app: app)
     }
     
     func tapBrowserRedirectWithOAuthErrorButton() -> ErrorScreen {
         oAuthErrorButton.tap()
         
-        return ErrorScreen(app: app).waitForAppearance()
+        let errorScreen = ErrorScreen(app: app)
+        
+        XCTAssertTrue(errorScreen.title.waitForExistence(timeout: .timeout))
+        
+        return errorScreen
     }
     
     func tapBrowserNoAuthCodeErrorButton() -> ErrorScreen {
         noAuthCodeButton.tap()
         
-        return ErrorScreen(app: app).waitForAppearance()
+        let errorScreen = ErrorScreen(app: app)
+        
+        XCTAssertTrue(errorScreen.title.waitForExistence(timeout: .timeout))
+        
+        return errorScreen
     }
     
     func tapBrowserFourHundredResponseErrorButton() -> LoginModalSecondScreen {
         fourHundredResponseErrorButton.tap()
         
-        let secondModalScreen = LoginModalSecondScreen(app: app).waitForAppearance()
+        let secondModalScreen = LoginModalSecondScreen(app: app)
         let browserElements = [
             secondModalScreen.view,
             secondModalScreen.title,
             secondModalScreen.loginButton
         ]
         browserElements.forEach {
-            _ = $0.waitForExistence(timeout: .timeout)
+            XCTAssertTrue($0.waitForExistence(timeout: .timeout), "\($0) exists")
         }
         return secondModalScreen
     }
@@ -75,14 +83,14 @@ struct LoginModal: ScreenObject {
     func tapBrowserFiveHundredResponseErrorButton() -> LoginModalSecondScreen {
         fiveHundredResponseErrorButton.tap()
         
-        let secondModalScreen = LoginModalSecondScreen(app: app).waitForAppearance()
+        let secondModalScreen = LoginModalSecondScreen(app: app)
         let browserElements = [
             secondModalScreen.view,
             secondModalScreen.title,
             secondModalScreen.loginButton
         ]
         browserElements.forEach {
-            _ = $0.waitForExistence(timeout: .timeout)
+            XCTAssertTrue($0.waitForExistence(timeout: .timeout), "\($0) exists")
         }
         return secondModalScreen
     }
