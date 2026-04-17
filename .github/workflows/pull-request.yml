@@ -16,7 +16,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build_app_and_test:
+  build_app:
     name: (Debug) Build App
     runs-on: macos-26
     outputs:
@@ -82,17 +82,17 @@ jobs:
           compression-level: 0
 
   run_unit_tests_and_send_coverage_report:
-    needs: build_app_and_test
+    needs: build_app
     name: Test
     uses: ./.github/workflows/run_unit_tests_and_send_coverage_report.yml
     with:
-      build_products_artifact_id: '${{ needs.build_app_and_test.outputs.build_products_artifact_id }}'
+      build_products_artifact_id: '${{ needs.build_app.outputs.build_products_artifact_id }}'
     secrets: inherit
 
   run_snapshot_tests:
-    needs: build_app_and_test
+    needs: build_app
     name: Test
     uses: ./.github/workflows/run_snapshot_tests.yml
     with:
-      build_products_artifact_id: '${{ needs.build_app_and_test.outputs.build_products_artifact_id }}'
+      build_products_artifact_id: '${{ needs.build_app.outputs.build_products_artifact_id }}'
     secrets: inherit
