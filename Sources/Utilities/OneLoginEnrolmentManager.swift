@@ -63,6 +63,10 @@ struct OneLoginEnrolmentManager: EnrolmentManager {
             NotificationCenter.default.post(name: .enrolmentComplete)
         }
         completion?()
+        
+        guard !(coordinator is WalletCoordinator) else {
+            return
+        }
         coordinator?.finish()
     }
 }
