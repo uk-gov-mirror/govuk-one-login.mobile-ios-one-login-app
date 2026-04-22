@@ -157,7 +157,9 @@ extension OneLoginEnrolmentManagerTests {
         let sut: OneLoginEnrolmentManager = .make(coordinator: mockChildCoordinatorExpectation)
         // WHEN saveSession is called
         sut.saveSession(isWalletEnrolment: true)
-        wait(for: [expectation], timeout: 1)
+        let result = XCTWaiter().wait(for: [expectation], timeout: 1)
+        
+        XCTAssertEqual(result, .completed)
     }
     
     @MainActor
@@ -170,7 +172,8 @@ extension OneLoginEnrolmentManagerTests {
         let sut: OneLoginEnrolmentManager = .make(coordinator: mockChildCoordinatorExpectation)
         // WHEN saveSession is called
         sut.saveSession(isWalletEnrolment: false)
-        wait(for: [expectation], timeout: 5)
+        let result = XCTWaiter().wait(for: [expectation], timeout: 5)
+        XCTAssertEqual(result, .completed)
     }
     
     @MainActor
@@ -183,7 +186,8 @@ extension OneLoginEnrolmentManagerTests {
         let sut: OneLoginEnrolmentManager = .make(coordinator: mockChildCoordinatorExpectation)
         // WHEN saveSession is called
         sut.saveSession()
-        wait(for: [expectation], timeout: 5)
+        let result = XCTWaiter().wait(for: [expectation], timeout: 5)
+        XCTAssertEqual(result, .completed)
     }
     
     @MainActor
