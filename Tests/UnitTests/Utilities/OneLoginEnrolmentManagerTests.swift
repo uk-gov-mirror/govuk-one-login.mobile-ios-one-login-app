@@ -1,33 +1,8 @@
 import Coordination
 import LocalAuthenticationWrapper
 import Networking
-import XCTest
-
 @testable import OneLogin
-
-class MockChildCoordinatorExpectation: ChildCoordinator {
-
-    weak var parentCoordinator: (any Coordination.ParentCoordinator)?
-
-    typealias StartAsFunction = () -> Void
-    typealias FinishAsFunction = () -> Void
-
-    var startAsFunction: StartAsFunction
-    var finishAsFunction: FinishAsFunction
-
-    init(startAsFunction: @escaping StartAsFunction = {}, finishAsFunction: @escaping FinishAsFunction = {}) {
-        self.startAsFunction = startAsFunction
-        self.finishAsFunction = finishAsFunction
-    }
-
-    func start() {
-        self.startAsFunction()
-    }
-
-    func finish() {
-        self.finishAsFunction()
-    }
-}
+import XCTest
 
 extension OneLoginEnrolmentManager {
     static func make(
@@ -51,6 +26,8 @@ extension OneLoginEnrolmentManager {
         )
     }
 }
+
+@MainActor
 final class OneLoginEnrolmentManagerTests: XCTestCase {
     private var mockLocalAuthContext: MockLocalAuthManager!
     private var mockSessionManager: MockSessionManager!
@@ -58,7 +35,6 @@ final class OneLoginEnrolmentManagerTests: XCTestCase {
     private var coordinator: ChildCoordinator!
     private var sut: OneLoginEnrolmentManager!
 
-    @MainActor
     override func setUp() {
         mockLocalAuthContext = MockLocalAuthManager()
         mockSessionManager = MockSessionManager()
@@ -90,7 +66,6 @@ final class OneLoginEnrolmentManagerTests: XCTestCase {
 }
 
 extension OneLoginEnrolmentManagerTests {
-    @MainActor
     func test_saveSession_succeeds() async {
         let exp = XCTNSNotificationExpectation(
             name: .enrolmentComplete,
@@ -105,7 +80,6 @@ extension OneLoginEnrolmentManagerTests {
         await fulfillment(of: [exp], timeout: 5)
     }
 
-    @MainActor
     func test_saveSession_fails() {
         // GIVEN the user has given FaceID permission
         mockLocalAuthContext.userDidConsentToFaceID = true
@@ -118,7 +92,6 @@ extension OneLoginEnrolmentManagerTests {
         XCTAssertEqual(mockAnalyticsService.crashesLogged, [MockError.generic as NSError])
     }
 
-    @MainActor
     func test_saveSession_promptForPermission_false() {
         // GIVEN the user has already given FaceID permission
         mockLocalAuthContext.userDidConsentToFaceID = false
@@ -129,7 +102,6 @@ extension OneLoginEnrolmentManagerTests {
         XCTAssertEqual(mockAnalyticsService.crashesLogged, [])
     }
 
-    @MainActor
     func test_saveSession_promptForPermission_cancelled() {
         // GIVEN promptForPermission throws a cancelled error
         mockLocalAuthContext.errorFromEnrolLocalAuth = LocalAuthenticationWrapperError.cancelled
@@ -140,7 +112,6 @@ extension OneLoginEnrolmentManagerTests {
         XCTAssertEqual(mockAnalyticsService.crashesLogged, [])
     }
 
-    @MainActor
     func test_saveSession_promptForPermission_fails() {
         // GIVEN promptForPermission throws an uncaught error
         mockLocalAuthContext.errorFromEnrolLocalAuth = MockError.generic
@@ -151,7 +122,6 @@ extension OneLoginEnrolmentManagerTests {
         XCTAssertEqual(mockAnalyticsService.crashesLogged, [MockError.generic as NSError])
     }
 
-    @MainActor
     func test_saveSession_isWalletEnrolmentTrue_finishOnCoordinator_not_called() {
         //  GIVEN OneLoginEnrolmentManager with a coordinator
         //  WHEN performing save session
@@ -171,7 +141,6 @@ extension OneLoginEnrolmentManagerTests {
         XCTAssertEqual(result, .completed)
     }
 
-    @MainActor
     func test_saveSession_isWalletEnrolmentFalse_finishOnCoordinator_called() {
         //  GIVEN OneLoginEnrolmentManager with a coordinator
         //  WHEN performing save session
@@ -190,7 +159,6 @@ extension OneLoginEnrolmentManagerTests {
         XCTAssertEqual(result, .completed)
     }
 
-    @MainActor
     func test_saveSession_default_finishOnCoordinator_called() {
         //  GIVEN OneLoginEnrolmentManager with a coordinator
         //  WHEN performing save session (where by default `isWalletEnrolment` is false)
@@ -208,7 +176,6 @@ extension OneLoginEnrolmentManagerTests {
         XCTAssertEqual(result, .completed)
     }
 
-    @MainActor
     func test_saveSession_isWalletEnrolmentTrue_walletCoordinator_notRemoved_asChild() {
         //  GIVEN a `TabManagerCoordinator`
         //  AND a `WalletCoordinator`
