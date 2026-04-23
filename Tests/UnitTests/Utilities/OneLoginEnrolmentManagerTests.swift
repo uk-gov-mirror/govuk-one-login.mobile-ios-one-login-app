@@ -147,7 +147,7 @@ extension OneLoginEnrolmentManagerTests {
     }
 
     @MainActor
-    func test_saveSession_isWalletEnrolmentTrue_callsFinishOnCoordinator() {
+    func test_saveSession_isWalletEnrolmentTrue_finishOnCoordinator_not_called() {
         let expectation = expectation(description: #function)
         expectation.isInverted = true
         let mockChildCoordinatorExpectation = MockChildCoordinatorExpectation(finishAsFunction: {
@@ -163,7 +163,7 @@ extension OneLoginEnrolmentManagerTests {
     }
     
     @MainActor
-    func test_saveSession_isWalletEnrolmentFalse_finishOnCoordinatorNotCalled() {
+    func test_saveSession_isWalletEnrolmentFalse_finishOnCoordinator_called() {
         let expectation = expectation(description: #function)
         let mockChildCoordinatorExpectation = MockChildCoordinatorExpectation(finishAsFunction: {
                 expectation.fulfill()
@@ -177,7 +177,7 @@ extension OneLoginEnrolmentManagerTests {
     }
     
     @MainActor
-    func test_saveSession_default_finishOnCoordinatorNotCalled() {
+    func test_saveSession_default_finishOnCoordinator_called() {
         let expectation = expectation(description: #function)
         let mockChildCoordinatorExpectation = MockChildCoordinatorExpectation(finishAsFunction: {
                 expectation.fulfill()
@@ -191,7 +191,7 @@ extension OneLoginEnrolmentManagerTests {
     }
     
     @MainActor
-    func test_saveSession_isWalletEnrolmentTrue__walletCoordinator_notRemoved_asChild() {
+    func test_saveSession_isWalletEnrolmentTrue_walletCoordinator_notRemoved_asChild() {
         let expectation = expectation(description: #function)
         let tabManagerCoordinator = TabManagerCoordinator(root: UITabBarController(),
                                         analyticsService: mockAnalyticsService,
