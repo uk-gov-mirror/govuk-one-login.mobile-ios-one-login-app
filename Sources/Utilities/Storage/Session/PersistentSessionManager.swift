@@ -6,6 +6,7 @@ import GDSUtilities
 import LocalAuthenticationWrapper
 import Logging
 import SecureStore
+import WalletProtocol
 import WalletStore
 
 // swiftlint:disable:next type_body_length

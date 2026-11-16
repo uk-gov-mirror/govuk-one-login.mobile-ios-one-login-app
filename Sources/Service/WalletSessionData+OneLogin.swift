@@ -1,4 +1,5 @@
 import Wallet
+import WalletProtocol
 import WalletStore
 
 /// Use to clear session data related to Wallet.
@@ -125,11 +126,6 @@ actor WalletSessionData: SessionBoundData {
             continuation.yield(error)
         }
     }
-}
-
-protocol WalletServiceProtocol {
-    func delete() async throws(WalletStoreError) -> [WalletStoreError]
-    func isEmpty() async -> Bool
 }
 
 struct WalletSDKWrapper: WalletServiceProtocol {

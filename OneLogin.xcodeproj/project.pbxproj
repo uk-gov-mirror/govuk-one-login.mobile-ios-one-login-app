@@ -599,6 +599,8 @@
 		D345434A30AB126A0084FF27 /* CRIOrchestratorProtocol in Frameworks */ = {isa = PBXBuildFile; productRef = D345434930AB126A0084FF27 /* CRIOrchestratorProtocol */; };
 		D345434C30AB126A0084FF27 /* OneLoginCRIOrchestrator in Frameworks */ = {isa = PBXBuildFile; productRef = D345434B30AB126A0084FF27 /* OneLoginCRIOrchestrator */; };
 		D345434F30AB17450084FF27 /* OneLoginCRIOrchestrator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D345434E30AB173C0084FF27 /* OneLoginCRIOrchestrator.swift */; };
+		D345435430AB31220084FF27 /* OneLoginWallet in Frameworks */ = {isa = PBXBuildFile; productRef = D345435330AB31220084FF27 /* OneLoginWallet */; };
+		D345435630AB31220084FF27 /* WalletProtocol in Frameworks */ = {isa = PBXBuildFile; productRef = D345435530AB31220084FF27 /* WalletProtocol */; };
 		D35EF5C23079242900A4E303 /* test_analyticsPeferenceScreen.7.png in Resources */ = {isa = PBXBuildFile; fileRef = D35EF5BC3079242900A4E303 /* test_analyticsPeferenceScreen.7.png */; };
 		D35EF5C33079242900A4E303 /* test_analyticsPeferenceScreen.8.png in Resources */ = {isa = PBXBuildFile; fileRef = D35EF5BD3079242900A4E303 /* test_analyticsPeferenceScreen.8.png */; };
 		D35EF5C43079242900A4E303 /* test_analyticsPeferenceScreen.10.png in Resources */ = {isa = PBXBuildFile; fileRef = D35EF5BF3079242900A4E303 /* test_analyticsPeferenceScreen.10.png */; };
@@ -1297,8 +1299,10 @@
 				C8A13CA42AFBD07E00FCBD36 /* Authentication in Frameworks */,
 				C8A13CB02AFBD0F100FCBD36 /* Coordination in Frameworks */,
 				AB327B112D36BEAD00AC169E /* CRIOrchestrator in Frameworks */,
+				D345435630AB31220084FF27 /* WalletProtocol in Frameworks */,
 				ABD7A0C02CEF887E006D6C7A /* CryptoService in Frameworks */,
 				D345434C30AB126A0084FF27 /* OneLoginCRIOrchestrator in Frameworks */,
+				D345435430AB31220084FF27 /* OneLoginWallet in Frameworks */,
 				C8A13CA92AFBD0CC00FCBD36 /* GAnalytics in Frameworks */,
 				AB90DC7E2D8875EA00070B0F /* GDSAnalytics in Frameworks */,
 				C8A13CAB2AFBD0CC00FCBD36 /* HTTPLogging in Frameworks */,
@@ -2994,6 +2998,8 @@
 				1E365B402FBB724A0090106D /* DesignSystem */,
 				D345434930AB126A0084FF27 /* CRIOrchestratorProtocol */,
 				D345434B30AB126A0084FF27 /* OneLoginCRIOrchestrator */,
+				D345435330AB31220084FF27 /* OneLoginWallet */,
+				D345435530AB31220084FF27 /* WalletProtocol */,
 			);
 			productName = "di-mobile-ios-onelogin-app";
 			productReference = 219601E72A976302008F3427 /* OneLogin.app */;
@@ -3181,6 +3187,7 @@
 				1E7F940D2F153B2900CC2CF9 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */,
 				1E365B3F2FBB724A0090106D /* XCRemoteSwiftPackageReference "mobile-ios-ui" */,
 				D345434830AB126A0084FF27 /* XCLocalSwiftPackageReference "OneLoginCRIOrchestrator" */,
+				D345435230AB31210084FF27 /* XCLocalSwiftPackageReference "OneLoginWallet" */,
 			);
 			productRefGroup = 219601E82A976302008F3427 /* Products */;
 			projectDirPath = "";
@@ -5565,6 +5572,10 @@
 			isa = XCLocalSwiftPackageReference;
 			relativePath = OneLoginCRIOrchestrator;
 		};
+		D345435230AB31210084FF27 /* XCLocalSwiftPackageReference "OneLoginWallet" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = OneLoginWallet;
+		};
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCRemoteSwiftPackageReference section */
@@ -5746,6 +5757,14 @@
 		D345434B30AB126A0084FF27 /* OneLoginCRIOrchestrator */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = OneLoginCRIOrchestrator;
+		};
+		D345435330AB31220084FF27 /* OneLoginWallet */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = OneLoginWallet;
+		};
+		D345435530AB31220084FF27 /* WalletProtocol */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = WalletProtocol;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
